@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Schema, Types } from 'mongoose';
 
 type TCard = {
   name: string;
@@ -21,7 +21,7 @@ const cardSchema = new Schema<TCard>({
   },
   owner: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   likes: [
@@ -36,4 +36,4 @@ const cardSchema = new Schema<TCard>({
   },
 });
 
-export const Card = mongoose.model<TCard>("Card", cardSchema);
+export const Card = mongoose.model<TCard>('Card', cardSchema);

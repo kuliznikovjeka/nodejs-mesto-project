@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import mongoose, { Error as MongooseError } from "mongoose";
-import { Card } from "../models/card";
-import { errorMessages } from "../shared/error-messages";
-import { httpCodeResponseName } from "../shared/http-code-response-name";
-import { AuthorizedRequest } from "../shared/types/authorized-request";
+import { Request, Response } from 'express';
+import mongoose, { Error as MongooseError } from 'mongoose';
+import { Card } from '../models/card';
+import { errorMessages } from '../shared/error-messages';
+import { httpCodeResponseName } from '../shared/http-code-response-name';
+import { AuthorizedRequest } from '../shared/types/authorized-request';
 
 export const getCards = async (req: Request, res: Response) => {
   try {
@@ -29,7 +29,7 @@ export const createCard = async (req: AuthorizedRequest, res: Response) => {
   try {
     if (owner && !mongoose.Types.ObjectId.isValid(owner)) {
       return res.status(httpCodeResponseName.badRequest).send({
-        message: "Передан некорректный _id пользователя",
+        message: 'Передан некорректный _id пользователя',
       });
     }
 
@@ -56,12 +56,12 @@ export const deleteCard = async (req: Request, res: Response) => {
 
     if (!card) {
       return res.status(httpCodeResponseName.notFound).send({
-        message: "Карточка поста c указанным _id не найдена.",
+        message: 'Карточка поста c указанным _id не найдена.',
       });
     }
 
     res.status(httpCodeResponseName.ok).send({
-      message: "Карточка поста успешно удалена",
+      message: 'Карточка поста успешно удалена',
     });
   } catch (error) {
     if (error instanceof MongooseError.CastError) {
@@ -76,35 +76,30 @@ export const deleteCard = async (req: Request, res: Response) => {
   }
 };
 
-export const addCardToFavorite = async (
-  req: AuthorizedRequest,
-  res: Response
-) => {
+export const addCardToFavorite = async (req: AuthorizedRequest, res: Response) => {
   const { cardId } = req.params;
   const userId = req.user?._id;
 
   try {
     if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(httpCodeResponseName.badRequest).send({
-        message: "Передан некорректный _id пользователя",
+        message: 'Передан некорректный _id пользователя',
       });
     }
 
     const updatedCard = await Card.findByIdAndUpdate(
       cardId,
       { $addToSet: { likes: userId } },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!updatedCard) {
       return res.status(httpCodeResponseName.notFound).send({
-        message: "Карточка поста с указанным id не найдена",
+        message: 'Карточка поста с указанным id не найдена',
       });
     }
 
-    res
-      .status(httpCodeResponseName.ok)
-      .send({ message: "Карточка поста добавлена в избранное" });
+    res.status(httpCodeResponseName.ok).send({ message: 'Карточка поста добавлена в избранное' });
   } catch (error) {
     if (error instanceof MongooseError.CastError) {
       return res.status(httpCodeResponseName.badRequest).send({
@@ -124,17 +119,14 @@ export const addCardToFavorite = async (
   }
 };
 
-export const deleteCardFromFavorite = async (
-  req: AuthorizedRequest,
-  res: Response
-) => {
+export const deleteCardFromFavorite = async (req: AuthorizedRequest, res: Response) => {
   const { cardId } = req.params;
   const userId = req.user?._id;
 
   try {
     if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(httpCodeResponseName.badRequest).send({
-        message: "Передан некорректный id пользователя",
+        message: 'Передан некорректный id пользователя',
       });
     }
 
@@ -145,18 +137,16 @@ export const deleteCardFromFavorite = async (
 
     if (!updatedCard) {
       return res.status(httpCodeResponseName.notFound).send({
-        message: "Карточка поста с указанным id не найдена",
+        message: 'Карточка поста с указанным id не найдена',
       });
     }
 
-    const isWasAlreadyLiked = updatedCard.likes.some(
-      (like) => String(like) === String(userId)
-    );
+    const isWasAlreadyLiked = updatedCard.likes.some((like) => String(like) === String(userId));
 
     res.status(httpCodeResponseName.ok).send({
       message: isWasAlreadyLiked
-        ? "Карточка поста удалена из избранного"
-        : "Карточка поста отсуствует в списке избранного",
+        ? 'Карточка поста удалена из избранного'
+        : 'Карточка поста отсуствует в списке избранного',
     });
   } catch (error) {
     if (error instanceof MongooseError.CastError) {

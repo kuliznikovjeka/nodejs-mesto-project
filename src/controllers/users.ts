@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import mongoose, { Error as MongooseError } from "mongoose";
-import { User } from "../models/user";
-import { errorMessages } from "../shared/error-messages";
-import { httpCodeResponseName } from "../shared/http-code-response-name";
-import { AuthorizedRequest } from "../shared/types/authorized-request";
+import { Request, Response } from 'express';
+import mongoose, { Error as MongooseError } from 'mongoose';
+import { User } from '../models/user';
+import { errorMessages } from '../shared/error-messages';
+import { httpCodeResponseName } from '../shared/http-code-response-name';
+import { AuthorizedRequest } from '../shared/types/authorized-request';
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
@@ -28,7 +28,7 @@ export const getUser = async (req: Request, res: Response) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(httpCodeResponseName.badRequest).send({
-        message: "Пользователь с указанным _id не найден",
+        message: 'Пользователь с указанным _id не найден',
       });
     }
 
@@ -60,10 +60,7 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUserProfile = async (
-  req: AuthorizedRequest,
-  res: Response
-) => {
+export const updateUserProfile = async (req: AuthorizedRequest, res: Response) => {
   const { name, about } = req.body;
 
   const userId = req.user?._id;
@@ -71,19 +68,19 @@ export const updateUserProfile = async (
   try {
     if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(httpCodeResponseName.badRequest).send({
-        message: "Пользователь с указанным _id не найден",
+        message: 'Пользователь с указанным _id не найден',
       });
     }
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { name, about },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!updatedUser) {
       return res.status(httpCodeResponseName.notFound).send({
-        message: "Пользователь с указанным _id не найден",
+        message: 'Пользователь с указанным _id не найден',
       });
     }
 
@@ -101,29 +98,26 @@ export const updateUserProfile = async (
   }
 };
 
-export const updateUserAvatar = async (
-  req: AuthorizedRequest,
-  res: Response
-) => {
+export const updateUserAvatar = async (req: AuthorizedRequest, res: Response) => {
   const { avatar } = req.body;
   const userId = req.user?._id;
 
   try {
     if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(httpCodeResponseName.badRequest).send({
-        message: "Пользователь с указанным id не найден",
+        message: 'Пользователь с указанным id не найден',
       });
     }
 
     const updatedUserAvatar = await User.findByIdAndUpdate(
       userId,
       { avatar },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!updatedUserAvatar) {
       return res.status(httpCodeResponseName.notFound).send({
-        message: "Пользователь с указанным id не найден",
+        message: 'Пользователь с указанным id не найден',
       });
     }
 

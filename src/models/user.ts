@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export type TUser = {
   name: string;
@@ -25,4 +25,4 @@ const userSchema = new mongoose.Schema<TUser>({
   },
 });
 
-export const User = mongoose.model<TUser>("User", userSchema);
+export const User = mongoose.model<TUser>('User', userSchema);
