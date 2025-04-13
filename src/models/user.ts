@@ -4,7 +4,7 @@ export type TUser = {
   name: string;
   about: string;
   avatar: string;
-}
+};
 
 const userSchema = new mongoose.Schema<TUser>({
   name: {
@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema<TUser>({
   },
   avatar: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-export const User = mongoose.model<TUser>('User', userSchema);
+export const User = mongoose.model<TUser>("User", userSchema);
