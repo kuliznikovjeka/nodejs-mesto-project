@@ -9,13 +9,7 @@ export const getCards = async (req: Request, res: Response) => {
   try {
     const cards = await Card.find({});
     res.status(httpCodeResponseName.ok).send(cards);
-  } catch (error) {
-    if (error instanceof MongooseError.ValidationError) {
-      return res.status(httpCodeResponseName.badRequest).send({
-        message: `Переданы некорректные данные при запросе карточек постов. \n ${error.message}`,
-      });
-    }
-
+  } catch {
     res
       .status(httpCodeResponseName.internalServerError)
       .send({ message: errorMessages.serverEror });
@@ -130,10 +124,11 @@ export const deleteCardFromFavorite = async (req: AuthorizedRequest, res: Respon
       });
     }
 
-    const updatedCard = await Card.findByIdAndUpdate(cardId, {
-      $pull: { likes: userId },
-      runValidators: true,
-    });
+    const updatedCard = await Card.findByIdAndUpdate(
+      cardId,
+      { $pull: { likes: userId } },
+      { new: true, runValidators: true },
+    );
 
     if (!updatedCard) {
       return res.status(httpCodeResponseName.notFound).send({
@@ -141,12 +136,8 @@ export const deleteCardFromFavorite = async (req: AuthorizedRequest, res: Respon
       });
     }
 
-    const isWasAlreadyLiked = updatedCard.likes.some((like) => String(like) === String(userId));
-
     res.status(httpCodeResponseName.ok).send({
-      message: isWasAlreadyLiked
-        ? 'Карточка поста удалена из избранного'
-        : 'Карточка поста отсуствует в списке избранного',
+      message: 'Карточка поста удалена из избранного',
     });
   } catch (error) {
     if (error instanceof MongooseError.CastError) {

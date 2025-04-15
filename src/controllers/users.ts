@@ -9,13 +9,7 @@ export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find({});
     res.status(httpCodeResponseName.ok).send(users);
-  } catch (error) {
-    if (error instanceof MongooseError.ValidationError) {
-      return res.status(httpCodeResponseName.badRequest).send({
-        message: `Переданы некорректные данные при запросе пользователей. \n ${error.message}`,
-      });
-    }
-
+  } catch {
     res
       .status(httpCodeResponseName.internalServerError)
       .send({ message: errorMessages.serverEror });
