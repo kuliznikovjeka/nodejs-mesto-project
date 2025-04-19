@@ -27,6 +27,13 @@ export const getUser = async (req: Request, res: Response) => {
     }
 
     const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(httpCodeResponseName.notFound).send({
+        message: 'Пользователь не найден',
+      });
+    }
+
     res.status(httpCodeResponseName.ok).send(user);
   } catch {
     res

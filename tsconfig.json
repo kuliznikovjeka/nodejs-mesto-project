@@ -18,6 +18,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "typeRoots": ["./node_modules/@types", "./types"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "scr/shared/types/env.d.ts"],
   "exclude": ["node_modules"]
 }
