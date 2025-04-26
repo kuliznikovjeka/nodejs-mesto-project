@@ -17,12 +17,8 @@ import {
 
 export const cardsRouter = express.Router();
 
-cardsRouter.get('/cards', getCards);
-cardsRouter.post('/cards', validateRequest(validateCreateCardSchema), createCard);
-cardsRouter.delete('/cards/:cardId', validateRequest(validateCardIdSchema), deleteCard);
-cardsRouter.put('/cards/:cardId/likes', validateRequest(validateCardIdSchema), addCardToFavorite);
-cardsRouter.delete(
-  '/cards/:cardId/likes',
-  validateRequest(validateCardIdSchema),
-  deleteCardFromFavorite,
-);
+cardsRouter.get('/', getCards);
+cardsRouter.post('/', validateRequest(validateCreateCardSchema), createCard);
+cardsRouter.delete('/:cardId', validateRequest(validateCardIdSchema), deleteCard);
+cardsRouter.put('/:cardId/likes', validateRequest(validateCardIdSchema), addCardToFavorite);
+cardsRouter.delete('/:cardId/likes', validateRequest(validateCardIdSchema), deleteCardFromFavorite);

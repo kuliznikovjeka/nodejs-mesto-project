@@ -81,7 +81,9 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
 
   try {
     const salt = 10;
@@ -110,8 +112,8 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         ),
       );
     } else if (
-      error instanceof Error &&
-      error.message.includes(mongoCodeResponseName.conflict.toString())
+      error instanceof Error
+      && error.message.includes(mongoCodeResponseName.conflict.toString())
     ) {
       next(new ConflictError('Пользователь с таким email уже существует'));
     } else {

@@ -23,6 +23,10 @@ export const VALIDATION_MESSAGES = {
     incorrectFormat: 'Некорректный id пользователя',
     length: 'ID пользователя должен состоять из длины, равной ',
   },
+  cardId: {
+    incorrectFormat: 'Некорректный id карточки',
+    length: 'ID карточки должен состоять из длины, равной ',
+  },
   link: {
     incorrectFormat: 'Некорректный URL. Введите правильный URL',
     required: 'Поле ссылки должно быть заполнено',

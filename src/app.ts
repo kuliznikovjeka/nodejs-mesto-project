@@ -31,10 +31,9 @@ app.use(requestLogger);
 app.post('/signin', validateRequest(validateLoginSchema), login);
 app.post('/signup', validateRequest(validateCreateUserSchema), createUser);
 
-app.use(authMiddleware);
+app.use('/users', authMiddleware, usersRouter);
+app.use('/cards', authMiddleware, cardsRouter);
 
-app.use(usersRouter);
-app.use(cardsRouter);
 app.use(notFoundRouter);
 
 app.use(errorLogger);

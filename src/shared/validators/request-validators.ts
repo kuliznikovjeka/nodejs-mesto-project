@@ -71,7 +71,7 @@ export const validateCardIdSchema = z.object({
   params: z.object({
     cardId: z
       .string()
-      .length(24, `${VALIDATION_MESSAGES.userId.length}24`)
-      .regex(/^[a-f0-9]+$/, VALIDATION_MESSAGES.userId.incorrectFormat),
+      .length(24, `${VALIDATION_MESSAGES.cardId.length}24`)
+      .regex(/^[a-f0-9]+$/, VALIDATION_MESSAGES.cardId.incorrectFormat),
   }),
 });

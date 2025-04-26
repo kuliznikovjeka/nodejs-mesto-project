@@ -18,12 +18,12 @@ import {
 
 export const usersRouter = express.Router();
 
-usersRouter.get('/users', getUsers);
-usersRouter.get('/users/me', getUserMe);
-usersRouter.patch('/users/me', validateRequest(validateUpdateUserProfileSchema), updateUserProfile);
+usersRouter.get('/', getUsers);
+usersRouter.get('/me', getUserMe);
+usersRouter.patch('/me', validateRequest(validateUpdateUserProfileSchema), updateUserProfile);
 usersRouter.patch(
-  '/users/me/avatar',
+  '/me/avatar',
   validateRequest(validateAvatarUpdateSchema),
   updateUserAvatar,
 );
-usersRouter.get('/users/:userId', validateRequest(validateUserIdSchema), getUser);
+usersRouter.get('/:userId', validateRequest(validateUserIdSchema), getUser);
