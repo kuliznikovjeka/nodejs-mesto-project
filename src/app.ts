@@ -1,3 +1,4 @@
+import { errors } from 'celebrate';
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -36,6 +37,7 @@ app.use('/cards', authMiddleware, cardsRouter);
 app.use(notFoundRouter);
 
 app.use(errorLogger);
+app.use(errors());
 
 app.use(centralizedErrorHandler);
 

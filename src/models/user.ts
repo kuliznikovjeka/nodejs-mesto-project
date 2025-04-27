@@ -58,7 +58,6 @@ const userSchema = new mongoose.Schema<TUser, TUserModel>(
     password: {
       type: String,
       required: [true, VALIDATION_MESSAGES.password.required],
-      minLength: [8, `${VALIDATION_MESSAGES.password.min}8`],
       select: false,
     },
   },
