@@ -1,5 +1,5 @@
 export const errorMessages = {
-  serverEror: 'Ошибка на сервере',
+  serverEror: 'На сервере произошла ошибка',
   userUnauthorizedError: 'Пользователь не авторизован',
   userNotFound: 'Пользователь не найден',
   notFoundedError: 'Запрашиваемый ресурс не найден',

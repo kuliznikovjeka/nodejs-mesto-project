@@ -19,7 +19,7 @@ export const validateCreateUserSchema = celebrate({
 
 export const validateUserIdSchema = celebrate({
   [Segments.PARAMS]: Joi.object({
-    userId: Joi.string().alphanum().required().length(24),
+    userId: Joi.string().length(24).hex().required(),
   }),
 });
 
@@ -45,6 +45,6 @@ export const validateCreateCardSchema = celebrate({
 
 export const validateCardIdSchema = celebrate({
   [Segments.PARAMS]: Joi.object({
-    cardId: Joi.string().alphanum().required().length(24),
+    cardId: Joi.string().length(24).hex().required(),
   }),
 });
