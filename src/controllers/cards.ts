@@ -1,5 +1,6 @@
+import { isCelebrateError } from 'celebrate';
 import { Request, Response, NextFunction } from 'express';
-import mongoose, { Error as MongooseError } from 'mongoose';
+import { Error as MongooseError } from 'mongoose';
 // models
 import { Card } from '../models/card';
 // shared
@@ -8,7 +9,6 @@ import { AuthorizedRequest } from '../shared/types/authorized-request';
 import { BadRequestError } from '../shared/errors/bad-request-error';
 import { NotFoundError } from '../shared/errors/not-found-error';
 import { ForbiddenError } from '../shared/errors/forbidden-error';
-import { errorMessages } from '../shared/errors/error-messages';
 
 export const getCards = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -27,7 +27,7 @@ export const createCard = async (req: AuthorizedRequest, res: Response, next: Ne
     const card = await Card.create({ name, link, owner });
     res.status(httpCodeResponseName.created).send(card);
   } catch (error) {
-    if (error instanceof MongooseError.ValidationError) {
+    if (isCelebrateError(error) || error instanceof MongooseError.ValidationError) {
       next(
         new BadRequestError(
           `Переданы некорректные данные при создании карточки поста. \n ${error.message}`,
@@ -106,10 +106,6 @@ export const deleteCardFromFavorite = async (
   const userId = req.user?._id;
 
   try {
-    if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
-      throw new BadRequestError(errorMessages.invalideFormatId);
-    }
-
     const updatedCard = await Card.findByIdAndUpdate(
       cardId,
       { $pull: { likes: userId } },

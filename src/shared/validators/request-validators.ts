@@ -1,77 +1,50 @@
-import { z } from 'zod';
-// local
-import { VALIDATION_MESSAGES } from './validation-messages';
+import { celebrate, Joi, Segments } from 'celebrate';
 
-export const validateLoginSchema = z.object({
-  body: z.object({
-    email: z.string().email(VALIDATION_MESSAGES.email.incorrectFormat),
-    password: z.string().min(8, `${VALIDATION_MESSAGES.password.min}8`),
+export const validateLoginSchema = celebrate({
+  [Segments.BODY]: Joi.object({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
   }),
 });
 
-export const validateCreateUserSchema = z.object({
-  body: z.object({
-    name: z
-      .string()
-      .min(2, `${VALIDATION_MESSAGES.name.min}2`)
-      .max(30, `${VALIDATION_MESSAGES.name.max}30`)
-      .optional(),
-    about: z
-      .string()
-      .min(2, `${VALIDATION_MESSAGES.about.min}2`)
-      .max(200, `${VALIDATION_MESSAGES.about.max}200`)
-      .optional(),
-    avatar: z.string().url(VALIDATION_MESSAGES.avatar.incorrectFormat).optional(),
-    email: z.string().email(VALIDATION_MESSAGES.email.incorrectFormat),
-    password: z.string().min(8, `${VALIDATION_MESSAGES.password.min}8`),
+export const validateCreateUserSchema = celebrate({
+  [Segments.BODY]: Joi.object({
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(200),
+    avatar: Joi.string().uri(),
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
   }),
 });
 
-export const validateUserIdSchema = z.object({
-  params: z.object({
-    userId: z
-      .string()
-      .length(24, `${VALIDATION_MESSAGES.userId.length}24`)
-      .regex(/^[a-f0-9]+$/, VALIDATION_MESSAGES.userId.incorrectFormat),
+export const validateUserIdSchema = celebrate({
+  [Segments.PARAMS]: Joi.object({
+    userId: Joi.string().alphanum().required().length(24),
   }),
 });
 
-export const validateUpdateUserProfileSchema = z.object({
-  body: z.object({
-    name: z
-      .string()
-      .min(2, `${VALIDATION_MESSAGES.name.min}2`)
-      .max(30, `${VALIDATION_MESSAGES.name.max}30`)
-      .optional(),
-    about: z
-      .string()
-      .min(2, `${VALIDATION_MESSAGES.about.min}2`)
-      .max(200, `${VALIDATION_MESSAGES.about.max}200`)
-      .optional(),
+export const validateUpdateUserProfileSchema = celebrate({
+  [Segments.BODY]: Joi.object({
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(200),
   }),
 });
 
-export const validateAvatarUpdateSchema = z.object({
-  body: z.object({
-    avatar: z.string().url(VALIDATION_MESSAGES.avatar.incorrectFormat),
+export const validateAvatarUpdateSchema = celebrate({
+  [Segments.BODY]: Joi.object({
+    avatar: Joi.string().uri(),
   }),
 });
 
-export const validateCreateCardSchema = z.object({
-  body: z.object({
-    name: z
-      .string()
-      .min(2, `${VALIDATION_MESSAGES.name.min}2`)
-      .max(30, `${VALIDATION_MESSAGES.name.max}30`),
-    link: z.string().url(VALIDATION_MESSAGES.link.incorrectFormat),
+export const validateCreateCardSchema = celebrate({
+  [Segments.BODY]: Joi.object({
+    link: Joi.string().required().uri(),
+    name: Joi.string().required().min(2).max(30),
   }),
 });
 
-export const validateCardIdSchema = z.object({
-  params: z.object({
-    cardId: z
-      .string()
-      .length(24, `${VALIDATION_MESSAGES.cardId.length}24`)
-      .regex(/^[a-f0-9]+$/, VALIDATION_MESSAGES.cardId.incorrectFormat),
+export const validateCardIdSchema = celebrate({
+  [Segments.PARAMS]: Joi.object({
+    cardId: Joi.string().alphanum().required().length(24),
   }),
 });

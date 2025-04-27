@@ -7,8 +7,6 @@ import {
   addCardToFavorite,
   deleteCardFromFavorite,
 } from '../controllers/cards';
-// middlewares
-import { validateRequest } from '../middlewares/validate-request';
 // shared
 import {
   validateCardIdSchema,
@@ -18,7 +16,7 @@ import {
 export const cardsRouter = express.Router();
 
 cardsRouter.get('/', getCards);
-cardsRouter.post('/', validateRequest(validateCreateCardSchema), createCard);
-cardsRouter.delete('/:cardId', validateRequest(validateCardIdSchema), deleteCard);
-cardsRouter.put('/:cardId/likes', validateRequest(validateCardIdSchema), addCardToFavorite);
-cardsRouter.delete('/:cardId/likes', validateRequest(validateCardIdSchema), deleteCardFromFavorite);
+cardsRouter.post('/', validateCreateCardSchema, createCard);
+cardsRouter.delete('/:cardId', validateCardIdSchema, deleteCard);
+cardsRouter.put('/:cardId/likes', validateCardIdSchema, addCardToFavorite);
+cardsRouter.delete('/:cardId/likes', validateCardIdSchema, deleteCardFromFavorite);

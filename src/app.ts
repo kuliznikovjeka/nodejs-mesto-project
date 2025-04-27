@@ -17,7 +17,6 @@ import { createUser, login } from './controllers/users';
 import { authMiddleware } from './middlewares/auth';
 import { centralizedErrorHandler } from './middlewares/centralized-error-handler';
 import { requestLogger, errorLogger } from './middlewares/logger';
-import { validateRequest } from './middlewares/validate-request';
 
 mongoose.connect(DATABASE_URL).catch((err) => {
   console.error('Не удалось подключиться к серверу', err);
@@ -28,8 +27,8 @@ app.use(express.json());
 
 app.use(requestLogger);
 
-app.post('/signin', validateRequest(validateLoginSchema), login);
-app.post('/signup', validateRequest(validateCreateUserSchema), createUser);
+app.post('/signin', validateLoginSchema, login);
+app.post('/signup', validateCreateUserSchema, createUser);
 
 app.use('/users', authMiddleware, usersRouter);
 app.use('/cards', authMiddleware, cardsRouter);

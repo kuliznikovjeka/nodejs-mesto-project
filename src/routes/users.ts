@@ -7,8 +7,6 @@ import {
   updateUserProfile,
   getUserMe,
 } from '../controllers/users';
-// middlewares
-import { validateRequest } from '../middlewares/validate-request';
 // shared
 import {
   validateAvatarUpdateSchema,
@@ -20,10 +18,6 @@ export const usersRouter = express.Router();
 
 usersRouter.get('/', getUsers);
 usersRouter.get('/me', getUserMe);
-usersRouter.patch('/me', validateRequest(validateUpdateUserProfileSchema), updateUserProfile);
-usersRouter.patch(
-  '/me/avatar',
-  validateRequest(validateAvatarUpdateSchema),
-  updateUserAvatar,
-);
-usersRouter.get('/:userId', validateRequest(validateUserIdSchema), getUser);
+usersRouter.patch('/me', validateUpdateUserProfileSchema, updateUserProfile);
+usersRouter.patch('/me/avatar', validateAvatarUpdateSchema, updateUserAvatar);
+usersRouter.get('/:userId', validateUserIdSchema, getUser);
